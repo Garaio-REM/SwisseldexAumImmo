@@ -105,7 +105,7 @@ module SwisseldexAumImmo
       end
 
 
-      if !@nationality_iso2.nil? && @nationality_iso2 !~ Regexp.new(^\\D{2}$)
+      if !@nationality_iso2.nil? && @nationality_iso2 !~ Regexp.new(/^\D{2}$/)
         invalid_properties.push("invalid value for 'nationality_iso2', must conform to the pattern ^\\D{2}$.")
       end
 
@@ -119,7 +119,7 @@ module SwisseldexAumImmo
       return false if @call_name.nil?
       return false if !@sex.nil? && @sex > 3.0
       return false if !@sex.nil? && @sex < 1.0
-      return false if !@nationality_iso2.nil? && @nationality_iso2 !~ Regexp.new(^\\D{2}$)
+      return false if !@nationality_iso2.nil? && @nationality_iso2 !~ Regexp.new(/^\D{2}$/)
       return true
     end
 
@@ -142,7 +142,7 @@ module SwisseldexAumImmo
     # @param [Object] nationality_iso2 Value to be assigned
     def nationality_iso2=(nationality_iso2)
 
-      if !nationality_iso2.nil? && nationality_iso2 !~ Regexp.new(^\\D{2}$)
+      if !nationality_iso2.nil? && nationality_iso2 !~ Regexp.new(/^\D{2}$/)
         fail ArgumentError, "invalid value for 'nationality_iso2', must conform to the pattern ^\\D{2}$."
       end
 

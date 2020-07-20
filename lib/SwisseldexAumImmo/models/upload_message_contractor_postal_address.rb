@@ -195,7 +195,7 @@ module SwisseldexAumImmo
     def list_invalid_properties
       invalid_properties = Array.new
 
-      if !@country.nil? && @country !~ Regexp.new(^\\D{2}$)
+      if !@country.nil? && @country !~ Regexp.new(/^\D{2}$/)
         invalid_properties.push("invalid value for 'country', must conform to the pattern ^\\D{2}$.")
       end
 
@@ -208,7 +208,7 @@ module SwisseldexAumImmo
       return false if @organisation_name.nil?
       return false if @street.nil?
       return false if @town.nil?
-      return false if !@country.nil? && @country !~ Regexp.new(^\\D{2}$)
+      return false if !@country.nil? && @country !~ Regexp.new(/^\D{2}$/)
       return true
     end
 
@@ -216,7 +216,7 @@ module SwisseldexAumImmo
     # @param [Object] country Value to be assigned
     def country=(country)
 
-      if !country.nil? && country !~ Regexp.new(^\\D{2}$)
+      if !country.nil? && country !~ Regexp.new(/^\D{2}$/)
         fail ArgumentError, "invalid value for 'country', must conform to the pattern ^\\D{2}$."
       end
 
