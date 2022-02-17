@@ -12,4 +12,3 @@ Name | Type | Description | Notes
 **town** | **String** |  | 
 **swiss_zip_code** | **Integer** |  | 
 
-

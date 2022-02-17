@@ -9,4 +9,3 @@ Name | Type | Description | Notes
 **phone_number** | **String** |  | [optional] 
 **additional_info** | **String** |  | [optional] 
 
-

@@ -1,0 +1,826 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "AUM Immo",
+    "version": "1.3"
+  },
+  "servers": [
+    {
+      "url": "https://sdx-aum-apim-t.azure-api.net/immo"
+    }
+  ],
+  "paths": {
+    "/messages": {
+      "post": {
+        "summary": "Upload",
+        "description": "Post a new change of contract message for automatic processing to VNB.",
+        "operationId": "upload",
+        "parameters": [
+          {
+            "name": "testDelivery",
+            "in": "query",
+            "description": "Processes message but does not forward it to recognized VNB (for testing)",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "carbonCopyEmail",
+            "in": "query",
+            "description": "If VNB is consuming the message via Email, this address is taken as CC (mainly intended for testing). Adress is only considered if the mail-server supports TLS (you can check this with e.g. https://www.checktls.com/TestReceiver). Value of this parameter is not validated and it won't cause a negative impact on the processing of the message.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Structure and property-names are adapted from eCH-0112 (https://www.ech.ch/de/standards/52687).",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadMessage"
+              },
+              "example": {
+                "messageTypeCode": 2,
+                "messageTypeInfo": "Meldung XYZ",
+                "messageTriggerType": "Scheduled",
+                "contractor": {
+                  "emailAddress": "info@immo.ch",
+                  "phoneNumber": "+41 012 345 67 89",
+                  "postalAddress": {
+                    "organisationName": "GARAIO AG",
+                    "organisationNameAddOn1": "",
+                    "organisationNameAddOn2": "",
+                    "firstName": "Wilhelm",
+                    "lastName": "Tell",
+                    "addressLine1": "",
+                    "addressLine2": "",
+                    "street": "Laupenstrasse",
+                    "houseNumber": "45",
+                    "dwellingNumber": "",
+                    "postOfficeBoxNumber": 6249,
+                    "postOfficeBoxText": "Postfach",
+                    "locality": "Bern",
+                    "town": "Bern",
+                    "swissZipCode": 3001,
+                    "foreignZipCode": "",
+                    "country": "CH"
+                  }
+                },
+                "person": {
+                  "officialName": "Gators",
+                  "callName": "Luis",
+                  "dateOfBirth": "1980-01-01",
+                  "sex": 1,
+                  "nationalityISO2": "CH"
+                },
+                "contract": {
+                  "beginOfContract": "2014-01-01",
+                  "endOfContract": "2020-04-30"
+                },
+                "building": {
+                  "egid": 1234646,
+                  "addressLine1": "",
+                  "addressLine2": "",
+                  "street": "Gotthardstrasse",
+                  "houseNumber": "99a",
+                  "dwellingNumber": "",
+                  "town": "Erstfeld",
+                  "swissZipCode": 6472
+                },
+                "dwelling": {
+                  "ewid": 1,
+                  "administativeDwellingIdType": "",
+                  "floorType": "OG",
+                  "positionOnFloor": "Links",
+                  "roomCount": "1"
+                },
+                "goesTo": {
+                  "addressLine1": "",
+                  "addressLine2": "",
+                  "street": "Technopark",
+                  "houseNumber": "5",
+                  "dwellingNumber": "",
+                  "postOfficeBoxNumber": 0,
+                  "postOfficeBoxText": "",
+                  "locality": "Zuerich",
+                  "town": "Zuerich",
+                  "swissZipCode": 8005,
+                  "foreignZipCode": "",
+                  "country": "CH"
+                },
+                "extension": {
+                  "previousPerson": {
+                    "officialName": "Tscherno",
+                    "callName": "Bill",
+                    "dateOfBirth": "1986-04-26",
+                    "sex": 3,
+                    "nationalityISO2": "UA"
+                  },
+                  "meterpointVSENationalID": "ABC123",
+                  "additionalPersonData": {
+                    "emailAddress": "info@tenant.ch",
+                    "phoneNumber": "+41 012 345 67 89"
+                  },
+                  "additionalPersons": [
+                    "Hans Muster",
+                    "Peter Krähenbühl"
+                  ],
+                  "personType": "LegalPerson",
+                  "idxObjectInfo": {
+                    "idxObjectCategory": "APPT",
+                    "idxObjectType": 3
+                  },
+                  "sourceSystemReferences": {
+                    "contract": "0X-C20301",
+                    "building": "023",
+                    "dwelling": "023.2442"
+                  },
+                  "sourceApplication": {
+                    "provider": "GARAIO REM AG",
+                    "name": "REM",
+                    "version": "1.0.0",
+                    "installation": "SuperImmo AG"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Every message is immediately processed and an informational response is returned. This contains information the real estate management system may use (optionally).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadResponse"
+                },
+                "example": {
+                  "transferId": "1aa41d46-1edb-487c-acc8-9e3d6151da1e",
+                  "transferTimestamp": "2020-01-01T23:28:56.0000000+00:00",
+                  "transferStatusCode": 0,
+                  "transferStatusInfo": "Details zu 'transferStatusCode'",
+                  "providerDetails": {
+                    "organisationName": "BKW Energie AG",
+                    "organisationId": "BKW",
+                    "emailAddress": "info@bkw.ch",
+                    "phoneNumber": "+41 012 345 67 89",
+                    "additionalInfo": "Zaehler wird in der Regel innerhalb 3 Wochen abgelesen"
+                  },
+                  "dataCorrections": {
+                    "buildingAddress": {
+                      "egid": 1234646,
+                      "street": "Laupenstrasse",
+                      "houseNumber": "45",
+                      "town": "Bern",
+                      "swissZipCode": 3001
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "When no message is posted or the content is not readable",
+            "content": {
+              "application/json": { }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UploadMessage": {
+        "required": [
+          "messageTypeCode",
+          "contractor",
+          "person",
+          "contract",
+          "building"
+        ],
+        "type": "object",
+        "properties": {
+          "messageTypeCode": {
+            "maximum": 6,
+            "minimum": 1,
+            "type": "integer",
+            "description": "1 = MoveIn (Einzug), 2 = MoveOut (Auszug), 3 = Update, 4 = Cancellation (Stornierung), 5 = PreInfoMoveIn (Vorinfo Einzug),  6 = PreInfoMoveOut (Vorinfo Auszug)"
+          },
+          "messageTypeInfo": {
+            "type": "string",
+            "description": "Any additional text informing about content or purpose of the message"
+          },
+          "messageTriggerType": {
+            "enum": [
+              "DataChanged",
+              "Scheduled",
+              null
+            ],
+            "type": "string",
+            "description": "Reason why message has been transmitted. If ommited then default \"Scheduled\" is used.",
+            "nullable": true
+          },
+          "contractor": {
+            "required": [
+              "emailAddress",
+              "phoneNumber",
+              "postalAddress"
+            ],
+            "type": "object",
+            "properties": {
+              "emailAddress": {
+                "type": "string",
+                "format": "email"
+              },
+              "phoneNumber": {
+                "type": "string"
+              },
+              "postalAddress": {
+                "required": [
+                  "organisationName",
+                  "street",
+                  "town"
+                ],
+                "type": "object",
+                "properties": {
+                  "organisationName": {
+                    "type": "string"
+                  },
+                  "organisationNameAddOn1": {
+                    "type": "string"
+                  },
+                  "organisationNameAddOn2": {
+                    "type": "string"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "description": "Of owner or contact person"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "description": "Of owner or contact person"
+                  },
+                  "addressLine1": {
+                    "type": "string"
+                  },
+                  "addressLine2": {
+                    "type": "string"
+                  },
+                  "street": {
+                    "type": "string"
+                  },
+                  "houseNumber": {
+                    "type": "string"
+                  },
+                  "dwellingNumber": {
+                    "type": "string"
+                  },
+                  "postOfficeBoxNumber": {
+                    "type": "integer"
+                  },
+                  "postOfficeBoxText": {
+                    "type": "string"
+                  },
+                  "locality": {
+                    "type": "string"
+                  },
+                  "town": {
+                    "type": "string"
+                  },
+                  "swissZipCode": {
+                    "type": "integer",
+                    "description": "Either this property or 'foreignZipCode' must be provided"
+                  },
+                  "foreignZipCode": {
+                    "type": "string",
+                    "description": "Either this property or 'swissZipCode' must be provided"
+                  },
+                  "country": {
+                    "pattern": "^\\D{2}$",
+                    "type": "string",
+                    "description": "ISO 2 format. Must be conforming to availability of 'swissZipCode' and 'foreignZipCode'"
+                  }
+                }
+              }
+            }
+          },
+          "person": {
+            "required": [
+              "officialName"
+            ],
+            "type": "object",
+            "properties": {
+              "officialName": {
+                "type": "string"
+              },
+              "callName": {
+                "type": "string",
+                "description": "Empty string for legal persons (companies)"
+              },
+              "dateOfBirth": {
+                "type": "string",
+                "format": "date"
+              },
+              "sex": {
+                "maximum": 3,
+                "minimum": 1,
+                "type": "integer",
+                "description": "1 = Male, 2 = Female, 3 = Undefined"
+              },
+              "nationalityISO2": {
+                "pattern": "^\\D{2}$",
+                "type": "string",
+                "description": "ISO 2 format"
+              }
+            },
+            "description": "Tenant which is responsible for the dwelling"
+          },
+          "contract": {
+            "minProperties": 1,
+            "type": "object",
+            "properties": {
+              "beginOfContract": {
+                "type": "string",
+                "description": "Date when specified person becomes responsible. To be provided when 'messageTypeCode' is 1",
+                "format": "date"
+              },
+              "endOfContract": {
+                "type": "string",
+                "description": "Date when specified person loses responsability. To be provided when 'messageTypeCode' is 2",
+                "format": "date"
+              }
+            }
+          },
+          "building": {
+            "required": [
+              "street",
+              "town",
+              "swissZipCode"
+            ],
+            "type": "object",
+            "properties": {
+              "egid": {
+                "type": "integer",
+                "description": "Eidgenoessischer Gebaeudeidentifikator according to specification of BFS"
+              },
+              "addressLine1": {
+                "type": "string"
+              },
+              "addressLine2": {
+                "type": "string"
+              },
+              "street": {
+                "type": "string"
+              },
+              "houseNumber": {
+                "type": "string"
+              },
+              "dwellingNumber": {
+                "type": "string"
+              },
+              "town": {
+                "type": "string"
+              },
+              "swissZipCode": {
+                "type": "integer"
+              }
+            }
+          },
+          "dwelling": {
+            "required": [
+              "floorType"
+            ],
+            "type": "object",
+            "properties": {
+              "ewid": {
+                "type": "integer",
+                "description": "Eidgenoessischer Wohnungsidentifikator according to specification of BFS"
+              },
+              "administativeDwellingIdType": {
+                "type": "string",
+                "description": "Known as 'Administrative Wohnungsnummer'"
+              },
+              "floorType": {
+                "type": "string",
+                "description": "Known as 'Stockwerk'"
+              },
+              "positionOnFloor": {
+                "type": "string",
+                "description": "Known as 'Lage auf Stockwerk'"
+              },
+              "roomCount": {
+                "maximum": 20,
+                "minimum": 1,
+                "type": "number",
+                "description": "Number of rooms (usable to identify dwelling). Format should be #.# (e.g. 4, 4.5)",
+                "format": "float"
+              }
+            }
+          },
+          "goesTo": {
+            "required": [
+              "street",
+              "town",
+              "country"
+            ],
+            "type": "object",
+            "properties": {
+              "addressLine1": {
+                "type": "string"
+              },
+              "addressLine2": {
+                "type": "string"
+              },
+              "street": {
+                "type": "string"
+              },
+              "houseNumber": {
+                "type": "string"
+              },
+              "dwellingNumber": {
+                "type": "string"
+              },
+              "postOfficeBoxNumber": {
+                "type": "integer"
+              },
+              "postOfficeBoxText": {
+                "type": "string"
+              },
+              "locality": {
+                "type": "string"
+              },
+              "town": {
+                "type": "string"
+              },
+              "swissZipCode": {
+                "type": "integer",
+                "description": "Either this property or 'foreignZipCode' must be provided"
+              },
+              "foreignZipCode": {
+                "type": "string",
+                "description": "Either this property or 'swissZipCode' must be provided"
+              },
+              "country": {
+                "pattern": "^\\D{2}$",
+                "type": "string",
+                "description": "ISO 2 format. Must be conforming to availability of 'swissZipCode' and 'foreignZipCode'"
+              }
+            },
+            "description": "Only relevant if 'messageTypeCode' is 2 (move-out) and person/tenant leaves country"
+          },
+          "extension": {
+            "type": "object",
+            "properties": {
+              "previousPerson": {
+                "required": [
+                  "officialName"
+                ],
+                "type": "object",
+                "properties": {
+                  "officialName": {
+                    "type": "string"
+                  },
+                  "callName": {
+                    "type": "string",
+                    "description": "Empty string for legal persons (companies)"
+                  },
+                  "dateOfBirth": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "sex": {
+                    "maximum": 3,
+                    "minimum": 1,
+                    "type": "integer",
+                    "description": "1 = Male, 2 = Female, 3 = Undefined"
+                  },
+                  "nationalityISO2": {
+                    "pattern": "^\\D{2}$",
+                    "type": "string",
+                    "description": "ISO 2 format"
+                  }
+                },
+                "description": "This information can be optionally provided for 'messageTypeCode' of 1 (move-in) to simplify identification of dwelling by consumers"
+              },
+              "meterpointVSENationalID": {
+                "type": "string",
+                "description": "According to SDAT-CH standard of VSE (see https://www.strom.ch/de/service/branchendokumente)"
+              },
+              "sourceApplicationInfo": {
+                "type": "string",
+                "description": "Deprecated: Use sourceApplication property"
+              },
+              "sourceApplication": {
+                "type": "object",
+                "properties": {
+                  "provider": {
+                    "type": "string",
+                    "description": "Manufacterer of the REM software"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the REM software"
+                  },
+                  "version": {
+                    "type": "string",
+                    "description": "Version of REM software"
+                  },
+                  "installation": {
+                    "type": "string",
+                    "description": "Realestate management company name"
+                  }
+                },
+                "description": "Identification of the source application"
+              },
+              "additionalPersonData": {
+                "type": "object",
+                "properties": {
+                  "emailAddress": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  }
+                },
+                "description": "Additional data of tenant"
+              },
+              "additionalPersons": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Additional persons as tenants"
+              },
+              "personType": {
+                "enum": [
+                  "LegalPerson",
+                  "NaturalPerson ",
+                  null
+                ],
+                "type": "string",
+                "description": "Legal or natural person. If ommited \"NaturalPerson\" is used.",
+                "nullable": true
+              },
+              "idxObjectInfo": {
+                "type": "object",
+                "properties": {
+                  "idxObjectCategory": {
+                    "type": "string"
+                  },
+                  "idxObjectType": {
+                    "type": "integer"
+                  }
+                },
+                "description": "According to OpenEstate IDX Definitions: https://github.com/OpenEstate/OpenEstate-IO/tree/master/IDX/specs"
+              },
+              "sourceSystemReferences": {
+                "type": "object",
+                "properties": {
+                  "contract": {
+                    "type": "string",
+                    "description": "Mietvertragsreferenznummer"
+                  },
+                  "building": {
+                    "type": "string"
+                  },
+                  "dwelling": {
+                    "type": "string"
+                  }
+                },
+                "description": "Object references of realestate management software"
+              }
+            },
+            "description": "Additional data to eCH-0112 standard"
+          }
+        },
+        "example": {
+          "messageTypeCode": 2,
+          "messageTypeInfo": "Meldung XYZ",
+          "messageTriggerType": "Scheduled",
+          "contractor": {
+            "emailAddress": "info@immo.ch",
+            "phoneNumber": "+41 012 345 67 89",
+            "postalAddress": {
+              "organisationName": "GARAIO AG",
+              "organisationNameAddOn1": "",
+              "organisationNameAddOn2": "",
+              "firstName": "Wilhelm",
+              "lastName": "Tell",
+              "addressLine1": "",
+              "addressLine2": "",
+              "street": "Laupenstrasse",
+              "houseNumber": "45",
+              "dwellingNumber": "",
+              "postOfficeBoxNumber": 6249,
+              "postOfficeBoxText": "Postfach",
+              "locality": "Bern",
+              "town": "Bern",
+              "swissZipCode": 3001,
+              "foreignZipCode": "",
+              "country": "CH"
+            }
+          },
+          "person": {
+            "officialName": "Gators",
+            "callName": "Luis",
+            "dateOfBirth": "1980-01-01",
+            "sex": 1,
+            "nationalityISO2": "CH"
+          },
+          "contract": {
+            "beginOfContract": "2014-01-01",
+            "endOfContract": "2020-04-30"
+          },
+          "building": {
+            "egid": 1234646,
+            "addressLine1": "",
+            "addressLine2": "",
+            "street": "Gotthardstrasse",
+            "houseNumber": "99a",
+            "dwellingNumber": "",
+            "town": "Erstfeld",
+            "swissZipCode": 6472
+          },
+          "dwelling": {
+            "ewid": 1,
+            "administativeDwellingIdType": "",
+            "floorType": "OG",
+            "positionOnFloor": "Links",
+            "roomCount": "1"
+          },
+          "goesTo": {
+            "addressLine1": "",
+            "addressLine2": "",
+            "street": "Technopark",
+            "houseNumber": "5",
+            "dwellingNumber": "",
+            "postOfficeBoxNumber": 0,
+            "postOfficeBoxText": "",
+            "locality": "Zuerich",
+            "town": "Zuerich",
+            "swissZipCode": 8005,
+            "foreignZipCode": "",
+            "country": "CH"
+          },
+          "extension": {
+            "previousPerson": {
+              "officialName": "Tscherno",
+              "callName": "Bill",
+              "dateOfBirth": "1986-04-26",
+              "sex": 3,
+              "nationalityISO2": "UA"
+            },
+            "meterpointVSENationalID": "ABC123",
+            "additionalPersonData": {
+              "emailAddress": "info@tenant.ch",
+              "phoneNumber": "+41 012 345 67 89"
+            },
+            "additionalPersons": [
+              "Hans Muster",
+              "Peter Krähenbühl"
+            ],
+            "personType": "LegalPerson",
+            "idxObjectInfo": {
+              "idxObjectCategory": "APPT",
+              "idxObjectType": 3
+            },
+            "sourceSystemReferences": {
+              "contract": "0X-C20301",
+              "building": "023",
+              "dwelling": "023.2442"
+            },
+            "sourceApplication": {
+              "provider": "GARAIO REM AG",
+              "name": "REM",
+              "version": "1.0.0",
+              "installation": "SuperImmo AG"
+            }
+          }
+        }
+      },
+      "UploadResponse": {
+        "required": [
+          "transferStatusCode"
+        ],
+        "type": "object",
+        "properties": {
+          "transferId": {
+            "type": "string"
+          },
+          "transferTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "transferStatusCode": {
+            "maximum": 5,
+            "minimum": 0,
+            "type": "integer",
+            "description": "0 = Undefined, 1 = Forwarded, 2 = VNB not supported, 3 = VNB not recognized, 4 = Invalid data, 5 = Message type not active for VNB"
+          },
+          "transferStatusInfo": {
+            "type": "string"
+          },
+          "providerDetails": {
+            "required": [
+              "organisationName"
+            ],
+            "type": "object",
+            "properties": {
+              "organisationName": {
+                "type": "string"
+              },
+              "organisationId": {
+                "type": "string"
+              },
+              "emailAddress": {
+                "type": "string"
+              },
+              "phoneNumber": {
+                "type": "string"
+              },
+              "additionalInfo": {
+                "type": "string"
+              }
+            }
+          },
+          "dataCorrections": {
+            "type": "object",
+            "properties": {
+              "buildingAddress": {
+                "required": [
+                  "street",
+                  "houseNumber",
+                  "town",
+                  "swissZipCode"
+                ],
+                "type": "object",
+                "properties": {
+                  "egid": {
+                    "type": "integer"
+                  },
+                  "street": {
+                    "type": "string"
+                  },
+                  "houseNumber": {
+                    "type": "string"
+                  },
+                  "town": {
+                    "type": "string"
+                  },
+                  "swissZipCode": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "transferId": "1aa41d46-1edb-487c-acc8-9e3d6151da1e",
+          "transferTimestamp": "2020-01-01T23:28:56.0000000+00:00",
+          "transferStatusCode": 0,
+          "transferStatusInfo": "Details zu 'transferStatusCode'",
+          "providerDetails": {
+            "organisationName": "BKW Energie AG",
+            "organisationId": "BKW",
+            "emailAddress": "info@bkw.ch",
+            "phoneNumber": "+41 012 345 67 89",
+            "additionalInfo": "Zaehler wird in der Regel innerhalb 3 Wochen abgelesen"
+          },
+          "dataCorrections": {
+            "buildingAddress": {
+              "egid": 1234646,
+              "street": "Laupenstrasse",
+              "houseNumber": "45",
+              "town": "Bern",
+              "swissZipCode": 3001
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      },
+      "apiKeyQuery": {
+        "type": "apiKey",
+        "name": "subscription-key",
+        "in": "query"
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": [ ]
+    },
+    {
+      "apiKeyQuery": [ ]
+    }
+  ]
+}

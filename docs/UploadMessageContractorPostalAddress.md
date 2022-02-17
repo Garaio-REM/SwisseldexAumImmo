@@ -17,8 +17,7 @@ Name | Type | Description | Notes
 **post_office_box_text** | **String** |  | [optional] 
 **locality** | **String** |  | [optional] 
 **town** | **String** |  | 
-**swiss_zip_code** | **Integer** | Either this property or &#39;foreignZipCode&#39; must be provided | [optional] 
-**foreign_zip_code** | **String** | Either this property or &#39;swissZipCode&#39; must be provided | [optional] 
-**country** | **String** | ISO 2 format. Must be conforming to availability of &#39;swissZipCode&#39; and &#39;foreignZipCode&#39; | [optional] 
-
+**swiss_zip_code** | **Integer** | Either this property or &#x27;foreignZipCode&#x27; must be provided | [optional] 
+**foreign_zip_code** | **String** | Either this property or &#x27;swissZipCode&#x27; must be provided | [optional] 
+**country** | **String** | ISO 2 format. Must be conforming to availability of &#x27;swissZipCode&#x27; and &#x27;foreignZipCode&#x27; | [optional] 
 
