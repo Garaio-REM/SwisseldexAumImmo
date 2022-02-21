@@ -17,6 +17,8 @@ module SwisseldexAumImmo
 
     attr_accessor :organisation_id
 
+    attr_accessor :provider_id
+
     attr_accessor :email_address
 
     attr_accessor :phone_number
@@ -28,6 +30,7 @@ module SwisseldexAumImmo
       {
         :'organisation_name' => :'organisationName',
         :'organisation_id' => :'organisationId',
+        :'provider_id' => :'providerId',
         :'email_address' => :'emailAddress',
         :'phone_number' => :'phoneNumber',
         :'additional_info' => :'additionalInfo'
@@ -39,6 +42,7 @@ module SwisseldexAumImmo
       {
         :'organisation_name' => :'Object',
         :'organisation_id' => :'Object',
+        :'provider_id' => :'Object',
         :'email_address' => :'Object',
         :'phone_number' => :'Object',
         :'additional_info' => :'Object'
@@ -72,6 +76,10 @@ module SwisseldexAumImmo
 
       if attributes.key?(:'organisation_id')
         self.organisation_id = attributes[:'organisation_id']
+      end
+
+      if attributes.key?(:'provider_id')
+        self.provider_id = attributes[:'provider_id']
       end
 
       if attributes.key?(:'email_address')
@@ -112,6 +120,7 @@ module SwisseldexAumImmo
       self.class == o.class &&
           organisation_name == o.organisation_name &&
           organisation_id == o.organisation_id &&
+          provider_id == o.provider_id &&
           email_address == o.email_address &&
           phone_number == o.phone_number &&
           additional_info == o.additional_info
@@ -126,7 +135,7 @@ module SwisseldexAumImmo
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [organisation_name, organisation_id, email_address, phone_number, additional_info].hash
+      [organisation_name, organisation_id, provider_id, email_address, phone_number, additional_info].hash
     end
 
     # Builds the object from hash

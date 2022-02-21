@@ -735,6 +735,9 @@
               "organisationId": {
                 "type": "string"
               },
+              "providerId": {
+                "type": "string"
+              },
               "emailAddress": {
                 "type": "string"
               },
