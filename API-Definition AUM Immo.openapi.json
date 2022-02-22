@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "AUM Immo",
-    "version": "1.3"
+    "version": "1.3.2-alpha"
   },
   "servers": [
     {
@@ -557,7 +557,7 @@
               "personType": {
                 "enum": [
                   "LegalPerson",
-                  "NaturalPerson ",
+                  "NaturalPerson",
                   null
                 ],
                 "type": "string",
