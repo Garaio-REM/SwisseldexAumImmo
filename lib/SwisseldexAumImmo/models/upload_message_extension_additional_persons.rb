@@ -12,36 +12,32 @@ Swagger Codegen version: 3.0.33
 require 'date'
 
 module SwisseldexAumImmo
-  class UploadResponseDataCorrectionsBuildingAddress
-    attr_accessor :egid
+  class UploadMessageExtensionAdditionalPersons
+    attr_accessor :first_name
 
-    attr_accessor :street
+    attr_accessor :last_name
 
-    attr_accessor :house_number
+    attr_accessor :email_address
 
-    attr_accessor :town
-
-    attr_accessor :swiss_zip_code
+    attr_accessor :phone_number
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'egid' => :'egid',
-        :'street' => :'street',
-        :'house_number' => :'houseNumber',
-        :'town' => :'town',
-        :'swiss_zip_code' => :'swissZipCode'
+        :'first_name' => :'firstName',
+        :'last_name' => :'lastName',
+        :'email_address' => :'emailAddress',
+        :'phone_number' => :'phoneNumber'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'egid' => :'Object',
-        :'street' => :'Object',
-        :'house_number' => :'Object',
-        :'town' => :'Object',
-        :'swiss_zip_code' => :'Object'
+        :'first_name' => :'Object',
+        :'last_name' => :'Object',
+        :'email_address' => :'Object',
+        :'phone_number' => :'Object'
       }
     end
 
@@ -55,35 +51,31 @@ module SwisseldexAumImmo
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `SwisseldexAumImmo::UploadResponseDataCorrectionsBuildingAddress` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `SwisseldexAumImmo::UploadMessageExtensionAdditionalPersons` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `SwisseldexAumImmo::UploadResponseDataCorrectionsBuildingAddress`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `SwisseldexAumImmo::UploadMessageExtensionAdditionalPersons`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'egid')
-        self.egid = attributes[:'egid']
+      if attributes.key?(:'first_name')
+        self.first_name = attributes[:'first_name']
       end
 
-      if attributes.key?(:'street')
-        self.street = attributes[:'street']
+      if attributes.key?(:'last_name')
+        self.last_name = attributes[:'last_name']
       end
 
-      if attributes.key?(:'house_number')
-        self.house_number = attributes[:'house_number']
+      if attributes.key?(:'email_address')
+        self.email_address = attributes[:'email_address']
       end
 
-      if attributes.key?(:'town')
-        self.town = attributes[:'town']
-      end
-
-      if attributes.key?(:'swiss_zip_code')
-        self.swiss_zip_code = attributes[:'swiss_zip_code']
+      if attributes.key?(:'phone_number')
+        self.phone_number = attributes[:'phone_number']
       end
     end
 
@@ -91,32 +83,12 @@ module SwisseldexAumImmo
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @street.nil?
-        invalid_properties.push('invalid value for "street", street cannot be nil.')
-      end
-
-      if @house_number.nil?
-        invalid_properties.push('invalid value for "house_number", house_number cannot be nil.')
-      end
-
-      if @town.nil?
-        invalid_properties.push('invalid value for "town", town cannot be nil.')
-      end
-
-      if @swiss_zip_code.nil?
-        invalid_properties.push('invalid value for "swiss_zip_code", swiss_zip_code cannot be nil.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @street.nil?
-      return false if @house_number.nil?
-      return false if @town.nil?
-      return false if @swiss_zip_code.nil?
       true
     end
 
@@ -125,11 +97,10 @@ module SwisseldexAumImmo
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          egid == o.egid &&
-          street == o.street &&
-          house_number == o.house_number &&
-          town == o.town &&
-          swiss_zip_code == o.swiss_zip_code
+          first_name == o.first_name &&
+          last_name == o.last_name &&
+          email_address == o.email_address &&
+          phone_number == o.phone_number
     end
 
     # @see the `==` method
@@ -141,7 +112,7 @@ module SwisseldexAumImmo
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [egid, street, house_number, town, swiss_zip_code].hash
+      [first_name, last_name, email_address, phone_number].hash
     end
 
     # Builds the object from hash

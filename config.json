@@ -1,6 +1,6 @@
 {
   "gemName" : "SwisseldexAumImmo",
   "moduleName" : "SwisseldexAumImmo",
-  "gemVersion" : "1.3.2-alpha",
+  "gemVersion" : "1.3.2",
   "gemLicense" : "Apache 2.0"
 }

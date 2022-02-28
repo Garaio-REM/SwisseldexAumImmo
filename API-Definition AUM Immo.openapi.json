@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "AUM Immo",
-    "version": "1.3.2-alpha"
+    "version": "1.3.2"
   },
   "servers": [
     {
@@ -71,8 +71,7 @@
                   "officialName": "Gators",
                   "callName": "Luis",
                   "dateOfBirth": "1980-01-01",
-                  "sex": 1,
-                  "nationalityISO2": "CH"
+                  "sex": 1
                 },
                 "contract": {
                   "beginOfContract": "2014-01-01",
@@ -114,8 +113,7 @@
                     "officialName": "Tscherno",
                     "callName": "Bill",
                     "dateOfBirth": "1986-04-26",
-                    "sex": 3,
-                    "nationalityISO2": "UA"
+                    "sex": 3
                   },
                   "meterpointVSENationalID": "ABC123",
                   "additionalPersonData": {
@@ -123,8 +121,18 @@
                     "phoneNumber": "+41 012 345 67 89"
                   },
                   "additionalPersons": [
-                    "Hans Muster",
-                    "Peter Krähenbühl"
+                    {
+                      "firstName": "Hans",
+                      "lastName": "Muster",
+                      "emailAddress": "hans.muster@tenant.ch",
+                      "phoneNumber": "+41 011 345 67 99"
+                    },
+                    {
+                      "firstName": "Peter",
+                      "lastName": "Krähenbühl",
+                      "emailAddress": "peter.kraehenbuehl@tenant.ch",
+                      "phoneNumber": "+41 055 345 79 97"
+                    }
                   ],
                   "personType": "LegalPerson",
                   "idxObjectInfo": {
@@ -141,6 +149,26 @@
                     "name": "REM",
                     "version": "1.0.0",
                     "installation": "SuperImmo AG"
+                  },
+                  "owner": {
+                    "firstName": "Max",
+                    "lastName": "Studer",
+                    "emailAddress": "max.studer@owner.ch",
+                    "phoneNumber": "+41 048 852 52 25",
+                    "postalAddress": {
+                      "addressLine1": "",
+                      "addressLine2": "",
+                      "street": "Eigerstrasse",
+                      "houseNumber": "4",
+                      "dwellingNumber": "",
+                      "postOfficeBoxNumber": 0,
+                      "postOfficeBoxText": "",
+                      "locality": "",
+                      "town": "Bern",
+                      "swissZipCode": 3001,
+                      "foreignZipCode": "",
+                      "country": "CH"
+                    }
                   }
                 }
               }
@@ -163,6 +191,7 @@
                   "providerDetails": {
                     "organisationName": "BKW Energie AG",
                     "organisationId": "BKW",
+                    "providerId": "12X-0000000858-F",
                     "emailAddress": "info@bkw.ch",
                     "phoneNumber": "+41 012 345 67 89",
                     "additionalInfo": "Zaehler wird in der Regel innerhalb 3 Wochen abgelesen"
@@ -328,11 +357,6 @@
                 "minimum": 1,
                 "type": "integer",
                 "description": "1 = Male, 2 = Female, 3 = Undefined"
-              },
-              "nationalityISO2": {
-                "pattern": "^\\D{2}$",
-                "type": "string",
-                "description": "ISO 2 format"
               }
             },
             "description": "Tenant which is responsible for the dwelling"
@@ -468,7 +492,7 @@
                 "description": "ISO 2 format. Must be conforming to availability of 'swissZipCode' and 'foreignZipCode'"
               }
             },
-            "description": "Only relevant if 'messageTypeCode' is 2 (move-out) and person/tenant leaves country"
+            "description": "Only relevant if 'messageTypeCode' is 2 (move-out)"
           },
           "extension": {
             "type": "object",
@@ -495,11 +519,6 @@
                     "minimum": 1,
                     "type": "integer",
                     "description": "1 = Male, 2 = Female, 3 = Undefined"
-                  },
-                  "nationalityISO2": {
-                    "pattern": "^\\D{2}$",
-                    "type": "string",
-                    "description": "ISO 2 format"
                   }
                 },
                 "description": "This information can be optionally provided for 'messageTypeCode' of 1 (move-in) to simplify identification of dwelling by consumers"
@@ -550,7 +569,22 @@
               "additionalPersons": {
                 "type": "array",
                 "items": {
-                  "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "emailAddress": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "phoneNumber": {
+                      "type": "string"
+                    }
+                  }
                 },
                 "description": "Additional persons as tenants"
               },
@@ -591,6 +625,15 @@
                   }
                 },
                 "description": "Object references of realestate management software"
+              },
+              "owner": {
+                "required": [
+                  "firstName",
+                  "lastName",
+                  "postalAddress"
+                ],
+                "type": "object",
+                "description": "Object references to owner"
               }
             },
             "description": "Additional data to eCH-0112 standard"
@@ -627,8 +670,7 @@
             "officialName": "Gators",
             "callName": "Luis",
             "dateOfBirth": "1980-01-01",
-            "sex": 1,
-            "nationalityISO2": "CH"
+            "sex": 1
           },
           "contract": {
             "beginOfContract": "2014-01-01",
@@ -670,8 +712,7 @@
               "officialName": "Tscherno",
               "callName": "Bill",
               "dateOfBirth": "1986-04-26",
-              "sex": 3,
-              "nationalityISO2": "UA"
+              "sex": 3
             },
             "meterpointVSENationalID": "ABC123",
             "additionalPersonData": {
@@ -679,8 +720,18 @@
               "phoneNumber": "+41 012 345 67 89"
             },
             "additionalPersons": [
-              "Hans Muster",
-              "Peter Krähenbühl"
+              {
+                "firstName": "Hans",
+                "lastName": "Muster",
+                "emailAddress": "hans.muster@tenant.ch",
+                "phoneNumber": "+41 011 345 67 99"
+              },
+              {
+                "firstName": "Peter",
+                "lastName": "Krähenbühl",
+                "emailAddress": "peter.kraehenbuehl@tenant.ch",
+                "phoneNumber": "+41 055 345 79 97"
+              }
             ],
             "personType": "LegalPerson",
             "idxObjectInfo": {
@@ -697,6 +748,26 @@
               "name": "REM",
               "version": "1.0.0",
               "installation": "SuperImmo AG"
+            },
+            "owner": {
+              "firstName": "Max",
+              "lastName": "Studer",
+              "emailAddress": "max.studer@owner.ch",
+              "phoneNumber": "+41 048 852 52 25",
+              "postalAddress": {
+                "addressLine1": "",
+                "addressLine2": "",
+                "street": "Eigerstrasse",
+                "houseNumber": "4",
+                "dwellingNumber": "",
+                "postOfficeBoxNumber": 0,
+                "postOfficeBoxText": "",
+                "locality": "",
+                "town": "Bern",
+                "swissZipCode": 3001,
+                "foreignZipCode": "",
+                "country": "CH"
+              }
             }
           }
         }
@@ -736,7 +807,8 @@
                 "type": "string"
               },
               "providerId": {
-                "type": "string"
+                "type": "string",
+                "description": "This is the EIC. Link: https://www.swissgrid.ch/en/home/customers/topics/eic/x-codes.html"
               },
               "emailAddress": {
                 "type": "string"
@@ -789,6 +861,7 @@
           "providerDetails": {
             "organisationName": "BKW Energie AG",
             "organisationId": "BKW",
+            "providerId": "12X-0000000858-F",
             "emailAddress": "info@bkw.ch",
             "phoneNumber": "+41 012 345 67 89",
             "additionalInfo": "Zaehler wird in der Regel innerhalb 3 Wochen abgelesen"
